@@ -23,5 +23,5 @@ Code Example
     		error:function(e){alert('failed');},
     		cancel:function(e){alert('canceled');},
     		allowEditing:true
-    		});
+      });
     });
