@@ -1,8 +1,10 @@
 Image resize module for Appcelerator Titanium (Android)
 =========================================
 
-ImageAsResized is a small image resize module. You can resize image files in Resouces directory and photo images.
+Description
 -------------------
+ImageAsResized is a small image resize module. You can resize image files in Resouces directory and photo images.
+Only iOS devices have ImageAsResized function, unless you load this module.
 
 Code Example
 -------------------
