@@ -178,7 +178,12 @@ public class ImageasresizedModule extends KrollModule
   private TiBlob returnBlob(BitmapFactory.Options opts, Bitmap image_base, Matrix matrix, Integer w, Integer h)
     throws NullPointerException{
     Bitmap scaled_image = Bitmap.createBitmap(image_base, 0, 0, w, h, matrix, true);
-    return TiBlob.blobFromImage(getTiContext(), scaled_image);
+    TiBlob blob = TiBlob.blobFromImage(getTiContext(), scaled_image);
+    image_base.recycle();
+    image_base = null;
+    scaled_image.recycle();
+    scaled_image = null;
+    return blob;
   }
 
   private Integer calcSampleSize(BitmapFactory.Options opts, Integer width, Integer height){
