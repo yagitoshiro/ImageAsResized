@@ -65,7 +65,7 @@ public class ImageasresizedModule extends KrollModule
   }
 
   @Kroll.method
-  public TiBlob cameraImageAsResized(TiBlob image, Integer height, Integer width){
+  public TiBlob cameraImageAsResized(TiBlob image, int width, int height){
     byte[] image_data = image.getBytes();
 
     try{
@@ -88,7 +88,7 @@ public class ImageasresizedModule extends KrollModule
   }
 
   @Kroll.method
-  public TiBlob imageAsResized(Integer width, Integer height, String path, Integer rotate){
+  public TiBlob imageAsResized(int width, int height, String path, int rotate){
     Activity activity = getTiContext().getActivity();
     AssetManager as = activity.getResources().getAssets();
 
@@ -167,15 +167,14 @@ public class ImageasresizedModule extends KrollModule
     output.close();
   }
 
-  private Matrix getScaleMatrix(Integer orig_w, Integer orig_h, Integer w, Integer h){
-
+  private Matrix getScaleMatrix(int orig_w, int orig_h, int w, int h){
     float scale = Math.min((float)orig_w/w, (float)orig_h/h);
     Matrix matrix = new Matrix();
     matrix.postScale(scale, scale);
     return matrix;
   }
 
-  private TiBlob returnBlob(BitmapFactory.Options opts, Bitmap image_base, Matrix matrix, Integer w, Integer h)
+  private TiBlob returnBlob(BitmapFactory.Options opts, Bitmap image_base, Matrix matrix, int w, int h)
     throws NullPointerException{
     Bitmap scaled_image = Bitmap.createBitmap(image_base, 0, 0, w, h, matrix, true);
     TiBlob blob = TiBlob.blobFromImage(getTiContext(), scaled_image);
@@ -186,9 +185,9 @@ public class ImageasresizedModule extends KrollModule
     return blob;
   }
 
-  private Integer calcSampleSize(BitmapFactory.Options opts, Integer width, Integer height){
-    int scaleW = opts.outWidth / width + 1;
-    int scaleH = opts.outHeight / height + 1;
+  private int calcSampleSize(BitmapFactory.Options opts, int width, int height){
+    int scaleW = Math.max(1, opts.outWidth / width);
+    int scaleH = Math.max(1, opts.outHeight / height);
     int sampleSize = Math.max(scaleW, scaleH);
     return sampleSize;
   }
