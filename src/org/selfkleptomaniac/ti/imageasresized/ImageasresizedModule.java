@@ -135,7 +135,7 @@ public class ImageasresizedModule extends KrollModule
         }
 
         // Voila!
-        return returnBlob(opts, image_base, matrix, w, h);
+        return returnBlob(opts, image_base, matrix, width, height);
       }catch(NullPointerException e){
         Log.w(LCAT, "Bitmap IOException:" + e);
         return null;
@@ -176,6 +176,8 @@ public class ImageasresizedModule extends KrollModule
 
   private TiBlob returnBlob(BitmapFactory.Options opts, Bitmap image_base, Matrix matrix, int w, int h)
     throws NullPointerException{
+    Log.w(LCAT, "returnBlob w:" + w);
+    Log.w(LCAT, "returnBlob h:" + h);
     Bitmap scaled_image = Bitmap.createBitmap(image_base, 0, 0, w, h, matrix, true);
     TiBlob blob = TiBlob.blobFromImage(getTiContext(), scaled_image);
     image_base.recycle();
