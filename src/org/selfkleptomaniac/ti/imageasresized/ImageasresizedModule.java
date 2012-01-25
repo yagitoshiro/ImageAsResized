@@ -193,7 +193,7 @@ public class ImageasresizedModule extends KrollModule
   private int calcSampleSize(BitmapFactory.Options opts, int width, int height){
     int scaleW = Math.max(1, opts.outWidth / width);
     int scaleH = Math.max(1, opts.outHeight / height);
-    int sampleSize = Math.max(scaleW, scaleH);
+    int sampleSize = Math.min(scaleW, scaleH);
     return sampleSize;
   }
 }
