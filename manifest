@@ -3,10 +3,10 @@
 # during compilation, packaging, distribution, etc.
 #
 version: 0.1
-description: My module
-author: Your Name
-license: Specify your license
-copyright: Copyright (c) 2011 by Your Company
+description: ImageAsResized
+author: Toshiro Yagi
+license: MIT license
+copyright: Copyright (c) 2012 by Toshiro Yagi
 
 
 # these should not be edited
