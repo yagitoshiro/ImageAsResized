@@ -20,8 +20,8 @@ You can resize your photo with imageasresized.cameraImageAsResized function. It 
 
 ### ___PROJECTNAMEASIDENTIFIER__.function
 
-imageAsResized(width, height, file, angle)
-cameraImageAsResized(TiBlob, width, height, angle)
+  imageAsResized(width, height, file, angle)
+  cameraImageAsResized(TiBlob, width, height, angle)
 
 ### ___PROJECTNAMEASIDENTIFIER__.property
 
@@ -29,28 +29,28 @@ n/a
 
 ## Usage
 
-var new_w = 100;
-var new_h = 100;
-
-var image = imageasresized.imageAsResized(new_w, new_h, 'images/test.jpg', 0);
-var resized = Ti.UI.createImageView({image:image, width:new_w, height:new_h, top:300});
-
-
-button_object.addEventListener('click', function(e){
-    var camera = Ti.Media.showCamera({
-        success: function(e){
-            var media = e.media;
-            var h = e.cropRect.height / 2;
-            var w = e.cropRect.width / 2;
-            var camera_data = imageasresized.cameraImageAsResized(media ,w, h, 0);
-            var camera_image = Ti.UI.createImageView({image:camera_data, canScale:true, height:'auto', width:'auto'});
-            win2.add(camera_image);
-        },
-        error:function(e){alert('failed');},
-        cancel:function(e){alert('canceled');},
-        allowEditing:true
+  var new_w = 100;
+  var new_h = 100;
+  
+  var image = imageasresized.imageAsResized(new_w, new_h, 'images/test.jpg', 0);
+  var resized = Ti.UI.createImageView({image:image, width:new_w, height:new_h, top:300});
+  
+  
+  button_object.addEventListener('click', function(e){
+      var camera = Ti.Media.showCamera({
+          success: function(e){
+              var media = e.media;
+              var h = e.cropRect.height / 2;
+              var w = e.cropRect.width / 2;
+              var camera_data = imageasresized.cameraImageAsResized(media ,w, h, 0);
+              var camera_image = Ti.UI.createImageView({image:camera_data, canScale:true, height:'auto', width:'auto'});
+              win2.add(camera_image);
+          },
+          error:function(e){alert('failed');},
+          cancel:function(e){alert('canceled');},
+          allowEditing:true
+    });
   });
-});
 
 ## Author
 
