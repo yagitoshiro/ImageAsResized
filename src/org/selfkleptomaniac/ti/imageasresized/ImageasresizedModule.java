@@ -65,7 +65,7 @@ public class ImageasresizedModule extends KrollModule
   }
 
   @Kroll.method
-  public TiBlob cameraImageAsResized(TiBlob image, int width, int height){
+  public TiBlob cameraImageAsResized(TiBlob image, int width, int height, int rotate){
     byte[] image_data = image.getBytes();
 
     try{
@@ -80,6 +80,9 @@ public class ImageasresizedModule extends KrollModule
 
       Bitmap image_base = BitmapFactory.decodeByteArray(image_data, 0, image_data.length, opts);
       Matrix matrix = getScaleMatrix(opts.outWidth, opts.outHeight, image_base.getWidth(), image_base.getHeight());
+      if(rotate > 0){
+        matrix.postRotate(rotate);
+      }
 
       return returnBlob(opts, image_base, matrix, width, height);
     }catch(NullPointerException e){
