@@ -11,10 +11,11 @@ package org.selfkleptomaniac.ti.imageasresized;
 import org.appcelerator.kroll.KrollModule;
 import org.appcelerator.kroll.annotations.Kroll;
 
-import org.appcelerator.titanium.TiContext;
-import org.appcelerator.titanium.util.Log;
-import org.appcelerator.titanium.util.TiConfig;
 import org.appcelerator.titanium.TiApplication;
+import org.appcelerator.kroll.common.Log;
+import org.appcelerator.kroll.common.TiConfig;
+
+import org.appcelerator.titanium.TiContext;
 import org.appcelerator.titanium.TiBlob;
 
 import java.io.IOException;
@@ -33,36 +34,46 @@ import android.content.res.AssetManager;
 public class ImageasresizedModule extends KrollModule
 {
 
-  // Standard Debugging variables
-  private static final String LCAT = "ImageasresizedModule";
-  private static final boolean DBG = TiConfig.LOGD;
+	// Standard Debugging variables
+	private static final String LCAT = "ImageasresizedModule";
+	private static final boolean DBG = TiConfig.LOGD;
 
-  // You can define constants with @Kroll.constant, for example:
-  // @Kroll.constant public static final String EXTERNAL_NAME = value;
-  
-  public ImageasresizedModule(TiContext tiContext) {
-    super(tiContext);
-  }
+	// You can define constants with @Kroll.constant, for example:
+	// @Kroll.constant public static final String EXTERNAL_NAME = value;
+	
+	public ImageasresizedModule()
+	{
+		super();
+	}
 
-  // Methods
-  @Kroll.method
-  public String example() {
-    Log.d(LCAT, "example called");
-    return "hello world";
-  }
-  
-  // Properties
-  @Kroll.getProperty
-  public String getExampleProp() {
-    Log.d(LCAT, "get example property");
-    return "hello world";
-  }
-  
-  
-  @Kroll.setProperty
-  public void setExampleProp(String value) {
-    Log.d(LCAT, "set example property: " + value);
-  }
+	@Kroll.onAppCreate
+	public static void onAppCreate(TiApplication app)
+	{
+		Log.d(LCAT, "inside onAppCreate");
+		// put module init code that needs to run when the application is created
+	}
+
+	// Methods
+	@Kroll.method
+	public String example()
+	{
+		Log.d(LCAT, "example called");
+		return "hello world";
+	}
+	
+	// Properties
+	@Kroll.getProperty
+	public String getExampleProp()
+	{
+		Log.d(LCAT, "get example property");
+		return "hello world";
+	}
+	
+	
+	@Kroll.setProperty
+	public void setExampleProp(String value) {
+		Log.d(LCAT, "set example property: " + value);
+	}
 
   @Kroll.method
   public TiBlob cameraImageAsResized(TiBlob image, int width, int height, int rotate){
@@ -140,11 +151,11 @@ public class ImageasresizedModule extends KrollModule
         // Voila!
         return returnBlob(opts, image_base, matrix, width, height);
       }catch(NullPointerException e){
-        Log.w(LCAT, "Bitmap IOException:" + e);
+        Log.d(LCAT, "Bitmap IOException:" + e);
         return null;
       }
     }catch(IOException e){
-      Log.w(LCAT, "Bitmap IOException:" + e);
+      Log.d(LCAT, "Bitmap IOException:" + e);
       return null;
     }
   }
@@ -171,7 +182,7 @@ public class ImageasresizedModule extends KrollModule
   }
 
   private Matrix getScaleMatrix(int orig_w, int orig_h, int w, int h){
-    float scale = Math.min((float)orig_w/w, (float)orig_h/h);
+    int scale = Math.min((int)orig_w/w, (int)orig_h/h);
     Matrix matrix = new Matrix();
     matrix.postScale(scale, scale);
     return matrix;
@@ -179,10 +190,10 @@ public class ImageasresizedModule extends KrollModule
 
   private TiBlob returnBlob(BitmapFactory.Options opts, Bitmap image_base, Matrix matrix, int w, int h)
     throws NullPointerException{
-    Log.w(LCAT, "returnBlob w:" + w);
-    Log.w(LCAT, "returnBlob h:" + h);
+    Log.d(LCAT, "returnBlob w:" + w);
+    Log.d(LCAT, "returnBlob h:" + h);
     Bitmap scaled_image = Bitmap.createBitmap(image_base, 0, 0, w, h, matrix, true);
-    TiBlob blob = TiBlob.blobFromImage(getTiContext(), scaled_image);
+    TiBlob blob = TiBlob.blobFromImage(scaled_image);
     image_base.recycle();
     image_base = null;
     scaled_image.recycle();
@@ -193,9 +204,8 @@ public class ImageasresizedModule extends KrollModule
   private int calcSampleSize(BitmapFactory.Options opts, int width, int height){
     int scaleW = Math.max(1, opts.outWidth / width);
     int scaleH = Math.max(1, opts.outHeight / height);
-    int sampleSize = Math.min(scaleW, scaleH);
+    int sampleSize = (int)Math.min(scaleW, scaleH);
     return sampleSize;
   }
 }
-
 

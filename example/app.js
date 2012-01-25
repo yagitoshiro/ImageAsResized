@@ -58,7 +58,7 @@ label2.addEventListener('click', function(e){
 			var image_module = require('org.selfkleptomaniac.ti.imageasresized');
 			var h = e.cropRect.height / 2;
 			var w = e.cropRect.width / 2;
-			var camera_data = androimage.cameraImageAsResized(media ,h, w, 0);
+			var camera_data = androimage.cameraImageAsResized(media , w, h, 0);
 			var camera_image = Ti.UI.createImageView({image:camera_data, canScale:true, height:'auto', width:'auto'});
 			win2.add(camera_image);
 		},
@@ -72,17 +72,17 @@ win2.add(label2);
 
 var wrap = Ti.UI.createView({layout:'vertical', top:20});
 
-var image_orig = Ti.UI.createImageView({image:'images/face.jpg', top:20, width:176, height:130});
+var image_orig = Ti.UI.createImageView({image:'images/boy.jpg', top:20, width:128, height:96});
 wrap.add(image_orig);
 
 var androimage = require('org.selfkleptomaniac.ti.imageasresized');
-var image_data = androimage.imageAsResized(88, 65, "images/face.jpg", 0);
-var rotated_image_data = androimage.imageAsResized(108, 85, "images/face.jpg", 90);
+var image_data = androimage.imageAsResized(128, 96, "images/boy.jpg", 0);
+var rotated_image_data = androimage.imageAsResized(128, 96, "images/boy.jpg", 90);
 
-var image_view1 = Ti.UI.createImageView({image:image_data, top:50, canScale:true, width:'auto', height:'auto'});
+var image_view1 = Ti.UI.createImageView({image:image_data, top:150, canScale:true, width:128, height:96});
 wrap.add(image_view1);
-//var image_view2 = Ti.UI.createImageView({image:rotated_image_data, top:50, width:'auto', height:'auto'});
-//wrap.add(image_view2);
+var image_view2 = Ti.UI.createImageView({image:rotated_image_data, top:250, width:96, height:128});
+wrap.add(image_view2);
 
 win1.add(wrap);
 //
