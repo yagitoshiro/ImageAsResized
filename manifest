@@ -2,17 +2,17 @@
 # this is your module manifest and used by Titanium
 # during compilation, packaging, distribution, etc.
 #
-version: 0.2
+version: 0.4
 apiversion: 2
-description: ImageAsResized for Android
+description: Image resize module for Android. Works with lesser memory.
 author: Toshiro Yagi
-license: MIT license
-copyright: Copyright (c) 2012 by Toshiro Yagi
+license: See: http://www.opensource.org/licenses/mit-license.php
+copyright: MIT
 
 
 # these should not be edited
 name: imageasresized
 moduleid: org.selfkleptomaniac.ti.imageasresized
-guid: fffa205f-c9b0-4fb8-8f12-224c8e08cbb8
+guid: b0e5be58-c50d-4edb-a5a7-dcbc6ded386b
 platform: android
-minsdk: 1.8.0.1
+minsdk: 2.0.2.GA
