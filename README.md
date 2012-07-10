@@ -27,6 +27,23 @@ Code Example
 			});
 		});
 
+		var self = Ti.UI.createWindow();
+		var cropped_image = image_mod.imageAsResized(64, 106, "images/tzara.jpg", 0);
+		var imageView = Ti.UI.createImageView({image:cropped_image, top:250});
+		self.add(imageView);
+
+		var cropped_image2 = image_mod.imageAsCropped(24, 56, "images/tzara.jpg", 0, 17, 5);
+		var imageView2 = Ti.UI.createImageView({image:cropped_image2, top:380});
+		self.add(imageView2);
+
+		var cropped_image3 = image_mod.imageAsCropped(64, 26, "images/tzara.jpg", 0, 0, 80);
+		var imageView3 = Ti.UI.createImageView({image:cropped_image3, top:450});
+		self.add(imageView3);
+
+		var cropped_image4 = image_mod.imageAsCropped(24, 56, "images/tzara.jpg", 90, 17, 5);
+		var imageView4 = Ti.UI.createImageView({image:cropped_image4, top:520});
+		self.add(imageView4);
+
 
 Known Issues
 -------------------
