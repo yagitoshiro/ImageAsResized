@@ -48,7 +48,3 @@ Code Example
 Known Issues
 -------------------
 Resized image will be cropped when you alter image's proportions. For example, your image file is 123 x 456, when you resize this file to 61.5 x 228, this will break original image's proportions so that resized image will be cropped.
-
-Workaround is (a) use CropImage module (https://github.com/yagitoshiro/CropImage) to make your file be square (b) specify arguments that will not alter original image's proportions.
-
-This is because I'm using Bitmap class and it accepts only integer. Anyone who know what to do, please tell me.
