@@ -6,6 +6,17 @@ Description
 ImageAsResized is a small image resize module. You can resize image files in Resouces directory and photo images.
 Only iOS devices have ImageAsResized function, unless you load this module.
 
+
+Install
+-------------------
+
+First open buiild.properties and fix path info.
+
+  $ export ANDROID_NDK=/path/to/ndk
+  $ ant
+
+And see dist directory to find zip file to add on your project.
+
 Code Example
 -------------------
 * See example for more detailed version.
