@@ -12,8 +12,8 @@ Install
 
 First open buiild.properties and fix path info.
 
-  $ export ANDROID_NDK=/path/to/ndk
-  $ ant
+	$ export ANDROID_NDK=/path/to/ndk
+	$ ant
 
 And see dist directory to find zip file to add on your project.
 
