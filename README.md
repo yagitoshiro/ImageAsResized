@@ -28,7 +28,7 @@ Code Example
 					var media = e.media;
 					var h = e.cropRect.height / 2;
 					var w = e.cropRect.width / 2;
-					var camera_data = androimage.cameraImageAsResized(media ,w, h, 0);
+					var camera_data = image_module.cameraImageAsResized(media ,w, h, 0);
 					var camera_image = Ti.UI.createImageView({image:camera_data, canScale:true, height:'auto', width:'auto'});
 					win2.add(camera_image);
 				},
