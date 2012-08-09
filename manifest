@@ -13,6 +13,7 @@ copyright: MIT
 # these should not be edited
 name: imageasresized
 moduleid: org.selfkleptomaniac.ti.imageasresized
-guid: b0e5be58-c50d-4edb-a5a7-dcbc6ded386b
+#guid: b0e5be58-c50d-4edb-a5a7-dcbc6ded386b
+guid: b9e99fbe-a01e-4286-97dd-bad72591fa17
 platform: android
 minsdk: 2.0.2.GA
