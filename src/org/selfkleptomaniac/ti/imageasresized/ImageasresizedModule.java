@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.FileOutputStream;
+import java.io.FileInputStream;
 import java.io.File;
 
 import android.app.Activity;
@@ -27,6 +28,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.content.res.AssetManager;
+import android.os.Environment;
 
 @Kroll.module(name="Imageasresized", id="org.selfkleptomaniac.ti.imageasresized")
 public class ImageasresizedModule extends KrollModule
@@ -34,6 +36,7 @@ public class ImageasresizedModule extends KrollModule
 
   // Standard Debugging variables
   private static final String LCAT = "ImageasresizedModule";
+  private static InputStream is;
   // You can define constants with @Kroll.constant, for example:
   // @Kroll.constant public static final String EXTERNAL_NAME = value;
   
@@ -116,35 +119,37 @@ public class ImageasresizedModule extends KrollModule
     }
 
     public TiBlob resizer(int width, int height, String path, int rotate, int x, int y){
-      Activity activity = getActivity();
-      AssetManager as = activity.getResources().getAssets();
-
-      String fpath = null;
-      String save_path = null;
-
-      if(path.startsWith("file://") || path.startsWith("content://")){
-        fpath = path;
-      }else{
-        if(path.startsWith("app://")){
-          path = path.replaceFirst("app://", "Resources/");
-        }else if(path.startsWith("Resources") == false){
-          if(path.startsWith("/")){
-            path = "Resources" + path;
-          }else{
-            path = "Resources/" + path;
-          }
-        }
-        fpath =  path;
-      }
-      File save_path_base = new File(path);
-      save_path = "camera/" + save_path_base.getName();
-
-      String toFile = "/data/data/"+ TiApplication.getInstance().getPackageName() +"/app_appdata/" + save_path;
-
       try{
+        Activity activity = getActivity();
+        AssetManager as = activity.getResources().getAssets();
+
+        String fpath = null;
+        String save_path = null;
+
+        if(path.startsWith("file://") || path.startsWith("content://") || path.startsWith("appdata://")){
+          fpath = path;
+          path = path.replaceFirst("(appdata|file|content)://", "");
+          is = new FileInputStream(new File(new File(Environment.getExternalStorageDirectory(), TiApplication.getInstance().getPackageName()), path));
+        }else{
+          if(path.startsWith("app://")){
+            path = path.replaceFirst("app://", "Resources/");
+          }else if(path.startsWith("Resources") == false){
+            if(path.startsWith("/")){
+              path = "Resources" + path;
+            }else{
+              path = "Resources/" + path;
+            }
+          }
+          fpath =  path;
+          is = as.open(fpath);
+        }
+        File save_path_base = new File(path);
+        save_path = "camera/" + save_path_base.getName();
+
+        String toFile = "/data/data/"+ TiApplication.getInstance().getPackageName() +"/app_appdata/" + save_path;
+
         // File must be copied to /data/data. you can't handle files under Resouces dir.
         // Who knows? Not me.
-        InputStream is = as.open(fpath);
         copyFile(is, toFile);
 
         // Load image file data, not image file it self.

@@ -75,6 +75,11 @@ var orig_width = 1536;
 var width = orig_width / 16;
 var height = orig_height / 16;
 
+var r_file = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory + 'images/boy.jpg');
+var r_data = r_file.read();
+var sd_file = Ti.Filesystem.getFile(Ti.Filesystem.externalStorageDirectory + 'tmp.jpg');
+sd_file.write(r_data);
+
 var wrap = Ti.UI.createScrollView({layout:'vertical', contentWidth: 'auto', contentHeight: 'auto', top:0});
 
 var image_orig = Ti.UI.createImageView({image:'/images/boy.jpg', top:20, width:width, height:height});
@@ -83,12 +88,15 @@ wrap.add(image_orig);
 var androimage = require('org.selfkleptomaniac.ti.imageasresized');
 var image_data = androimage.imageAsResized(width, height, "images/boy.jpg", 0);
 var rotated_image_data = androimage.imageAsResized(width, height, "/images/boy.jpg", 90);
+var sd_card_image = androimage.imageAsResized(width,height, Ti.Filesystem.externalStorageDirectory + "tmp.jpg", 0);
 Ti.API.info(image_data);
 
 var image_view1 = Ti.UI.createImageView({image:image_data, top:20, canScale:true, width:width, height:height});
 wrap.add(image_view1);
 var image_view2 = Ti.UI.createImageView({image:rotated_image_data, top:20, width:height, height:width});
 wrap.add(image_view2);
+var image_view3 = Ti.UI.createImageView({image:sd_card_image, top:20, width:width, height:height});
+wrap.add(image_view3);
 
 win1.add(wrap);
 //
