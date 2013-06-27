@@ -124,12 +124,20 @@ public class ImageasresizedModule extends KrollModule
 
       if(path.startsWith("file://") || path.startsWith("content://")){
         fpath = path;
-        File save_path_base = new File(path);
-        save_path = "camera/" + save_path_base.getName();
       }else{
-        fpath = "Resources/" + path;
-        save_path = path;
+        if(path.startsWith("app://")){
+          path = path.replaceFirst("app://", "Resources/");
+        }else if(path.startsWith("Resources") == false){
+          if(path.startsWith("/")){
+            path = "Resources" + path;
+          }else{
+            path = "Resources/" + path;
+          }
+        }
+        fpath =  path;
       }
+      File save_path_base = new File(path);
+      save_path = "camera/" + save_path_base.getName();
 
       String toFile = "/data/data/"+ TiApplication.getInstance().getPackageName() +"/app_appdata/" + save_path;
 
