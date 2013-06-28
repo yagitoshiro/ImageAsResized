@@ -119,6 +119,7 @@ public class ImageasresizedModule extends KrollModule
     }
 
     public TiBlob resizer(int width, int height, String path, int rotate, int x, int y){
+      //Log.d(LCAT, "path:" + path);
       try{
         Activity activity = getActivity();
         AssetManager as = activity.getResources().getAssets();
@@ -127,9 +128,10 @@ public class ImageasresizedModule extends KrollModule
         String save_path = null;
 
         if(path.startsWith("file://") || path.startsWith("content://") || path.startsWith("appdata://")){
+          path = path.replaceAll("(appdata|file|content)://", "");
           fpath = path;
-          path = path.replaceFirst("(appdata|file|content)://", "");
-          is = new FileInputStream(new File(new File(Environment.getExternalStorageDirectory(), TiApplication.getInstance().getPackageName()), path));
+          //Log.d(LCAT, "path:" + fpath);
+          is = new FileInputStream(new File(path));
         }else{
           if(path.startsWith("app://")){
             path = path.replaceFirst("app://", "Resources/");
