@@ -127,12 +127,16 @@ public class ImageasresizedModule extends KrollModule
         String fpath = null;
         String save_path = null;
 
-        if(path.startsWith("file://") || path.startsWith("content://") || path.startsWith("appdata://")){
-          path = path.replaceAll("(appdata|file|content)://", "");
+        if(path.startsWith("file://") || path.startsWith("content://") || path.startsWith("appdata://") || path.startsWith("appdata-private://")){
+          // files outside of apk
+          path = path.replaceAll("file://", "");
+          path = path.replaceAll("appdata:///?", "/mnt/sdcard/" + TiApplication.getInstance().getPackageName() + "/");
+          path = path.replaceAll("appdata-private:///?", "/data/data/" + TiApplication.getInstance().getPackageName() + "/app_appdata/");
           fpath = path;
           //Log.d(LCAT, "path:" + fpath);
           is = new FileInputStream(new File(path));
         }else{
+          // files in apk
           if(path.startsWith("app://")){
             path = path.replaceFirst("app://", "Resources/");
           }else if(path.startsWith("Resources") == false){

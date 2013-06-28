@@ -77,7 +77,7 @@ var height = orig_height / 16;
 
 var r_file = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory + 'images/boy.jpg');
 var r_data = r_file.read();
-var sd_file = Ti.Filesystem.getFile(Ti.Filesystem.externalStorageDirectory + 'tmp.jpg');
+var sd_file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory + 'tmp.jpg');
 Ti.API.info(sd_file.nativePath);
 sd_file.write(r_data);
 
@@ -90,6 +90,7 @@ var androimage = require('org.selfkleptomaniac.ti.imageasresized');
 var image_data = androimage.imageAsResized(width, height, "images/boy.jpg", 0);
 var rotated_image_data = androimage.imageAsResized(width, height, "/images/boy.jpg", 90);
 var sd_card_image = androimage.imageAsResized(width, height, sd_file.nativePath, 0);
+//var sd_card_image = androimage.imageAsResized(width, height, Ti.Filesystem.applicationDataDirectory + 'tmp.jpg', 0);
 Ti.API.info(sd_card_image);
 
 var image_view1 = Ti.UI.createImageView({image:image_data, top:20, canScale:true, width:width, height:height});
