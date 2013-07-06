@@ -97,7 +97,8 @@ public class ImageasresizedModule extends KrollModule
         opts.inJustDecodeBounds = false;
 
         Bitmap image_base = BitmapFactory.decodeByteArray(image_data, 0, image_data.length, opts);
-        Matrix matrix = getScaleMatrix(opts.outWidth, opts.outHeight, image_base.getWidth(), image_base.getHeight());
+
+        Matrix matrix = getScaleMatrix(width, height, image_base.getWidth(), image_base.getHeight());
         if(rotate > 0){
           matrix.postRotate(rotate);
         }
@@ -174,7 +175,7 @@ public class ImageasresizedModule extends KrollModule
           int w = image_base.getWidth();
           int h = image_base.getHeight();
 
-          Matrix matrix = getScaleMatrix(opts.outWidth, opts.outHeight, w, h);
+          Matrix matrix = getScaleMatrix(width, height, w, h);
 
           if(rotate > 0){
             matrix.postRotate(rotate);
@@ -214,7 +215,10 @@ public class ImageasresizedModule extends KrollModule
     }
 
     private Matrix getScaleMatrix(int orig_w, int orig_h, int w, int h){
-      int scale = Math.min((int)orig_w/w, (int)orig_h/h);
+//      float scale = (float)w / (float)orig_w;
+      int n = 3;
+      float scale = (float)Math.exp(Math.log((float)w / (float)orig_w) / (float)n);
+      //Log.d(LCAT, "scale:" + scale);
       Matrix matrix = new Matrix();
       matrix.postScale(scale, scale);
       return matrix;
@@ -224,9 +228,14 @@ public class ImageasresizedModule extends KrollModule
       throws NullPointerException{
 //      Log.d(LCAT, "returnBlob w:" + w);
 //      Log.d(LCAT, "returnBlob h:" + h);
+//      Log.d(LCAT, "image_base w: " + image_base.getWidth());
+//      Log.d(LCAT, "image_base h: " + image_base.getHeight());
 //      Log.d(LCAT, "returnBlob x:" + x);
 //      Log.d(LCAT, "returnBlob y:" + y);
-      Bitmap scaled_image = Bitmap.createBitmap(image_base, x, y, w, h, matrix, true);
+      Bitmap scaled_image = Bitmap.createBitmap(image_base, x, y, (int)image_base.getWidth(), (int)image_base.getHeight(), matrix, true);
+      for(int i = 0; i < 2; i++){
+        scaled_image = Bitmap.createBitmap(scaled_image, x, y, scaled_image.getWidth(), scaled_image.getHeight(), matrix, true);
+      }
       TiBlob blob = TiBlob.blobFromImage(scaled_image);
       image_base.recycle();
       image_base = null;

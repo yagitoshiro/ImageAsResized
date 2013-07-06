@@ -42,6 +42,12 @@ var tab2 = Titanium.UI.createTab({
     window:win2
 });
 
+var wrap2 = Ti.UI.createScrollView({
+  contentWidth: 'auto',
+  contentHeight: 'auto',
+  top: 0
+});
+win2.add(wrap2);
 var label2 = Titanium.UI.createLabel({
 	color:'#999',
 	text:'I am Window 2',
@@ -51,16 +57,35 @@ var label2 = Titanium.UI.createLabel({
 });
 
 label2.addEventListener('click', function(e){
-	var camera = Ti.Media.showCamera({
+	//var camera = Ti.Media.showCamera({
+  var limit = 1024 * 1024 * 1;
+	var camera = Ti.Media.openPhotoGallery({
 		success: function(e){
-			Ti.API.info(e);
-			var media = e.media;
+			Ti.API.info(JSON.stringify(e));
+      var tmp_path = Ti.Filesystem.applicationDataDirectory + 'tmp.jpg';
+      //var intent = Ti.Android.createIntent({
+      //  action: "com.android.camera.action.CROP",
+      //  data: tmp_path
+      //});
+      //intent.putExtra("outputX", 300);
+      //intent.putExtra("outputY", 300);
+      //intent.putExtra("aspectX", 1);
+      //intent.putExtra("aspectY", 1);
+      //intent.putExtra("noFaceDetection", true);
+      //Ti.Android.currentActivity.startActivityForResult(intent, function(e){
+			//  Ti.API.info(JSON.stringify(e));
+      //});
+
+			var resized_image = e.media;
 			var image_module = require('org.selfkleptomaniac.ti.imageasresized');
-			var h = e.cropRect.height / 2;
-			var w = e.cropRect.width / 2;
-			var camera_data = image_module.cameraImageAsResized(media , w, h, 0);
-			var camera_image = Ti.UI.createImageView({image:camera_data, canScale:true, height:'auto', width:'auto'});
-			win2.add(camera_image);
+      var rate = 16;
+      var width = e.cropRect.width / rate;
+      var height = e.cropRect.height / rate;
+      resized_image = image_module.cameraImageAsResized(resized_image, width, height, 0);
+//			var camera_data = image_module.cameraImageAsResized(media , w, h, 0);
+//			Ti.API.info(JSON.stringify(camera_data));
+			var camera_image = Ti.UI.createImageView({image:resized_image, canScale:true, height:height, width: width});
+			wrap2.add(camera_image);
 		},
 		error:function(e){alert('failed');},
 		cancel:function(e){alert('canceled');},
@@ -68,18 +93,21 @@ label2.addEventListener('click', function(e){
 		});
 });
 
-win2.add(label2);
+wrap2.add(label2);
 
 var orig_height = 2048;
 var orig_width = 1536;
 var width = orig_width / 16;
 var height = orig_height / 16;
-
+ 
 var r_file = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory + 'images/boy.jpg');
 var r_data = r_file.read();
 var sd_file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory + 'tmp.jpg');
 Ti.API.info(sd_file.nativePath);
 sd_file.write(r_data);
+width = r_data.getWidth() / 16.0;
+height = r_data.getHeight() / 16.0;
+Ti.API.info('width:' + width);
 
 var wrap = Ti.UI.createScrollView({layout:'vertical', contentWidth: 'auto', contentHeight: 'auto', top:0});
 
