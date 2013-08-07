@@ -218,7 +218,6 @@ public class ImageasresizedModule extends KrollModule
 //      float scale = (float)w / (float)orig_w;
       int n = 3;
       float scale = (float)Math.exp(Math.log((float)w / (float)orig_w) / (float)n);
-      //Log.d(LCAT, "scale:" + scale);
       Matrix matrix = new Matrix();
       matrix.postScale(scale, scale);
       return matrix;
@@ -226,15 +225,16 @@ public class ImageasresizedModule extends KrollModule
 
     private TiBlob returnBlob(BitmapFactory.Options opts, Bitmap image_base, Matrix matrix, int w, int h, int x, int y)
       throws NullPointerException{
-//      Log.d(LCAT, "returnBlob w:" + w);
-//      Log.d(LCAT, "returnBlob h:" + h);
-//      Log.d(LCAT, "image_base w: " + image_base.getWidth());
-//      Log.d(LCAT, "image_base h: " + image_base.getHeight());
-//      Log.d(LCAT, "returnBlob x:" + x);
-//      Log.d(LCAT, "returnBlob y:" + y);
       Bitmap scaled_image = Bitmap.createBitmap(image_base, x, y, (int)image_base.getWidth(), (int)image_base.getHeight(), matrix, true);
       for(int i = 0; i < 2; i++){
         scaled_image = Bitmap.createBitmap(scaled_image, x, y, scaled_image.getWidth(), scaled_image.getHeight(), matrix, true);
+      }
+      //I know it's stupid but it works.
+      if(scaled_image.getWidth() > w && scaled_image.getHeight() > h){
+        float scale = Math.min((float)w/scaled_image.getWidth(), (float)h/scaled_image.getHeight());
+        Matrix matrixEnd = new Matrix();
+        matrixEnd.postScale(scale, scale);
+        scaled_image = Bitmap.createBitmap(scaled_image, x, y, scaled_image.getWidth(), scaled_image.getHeight(), matrixEnd, true);
       }
       TiBlob blob = TiBlob.blobFromImage(scaled_image);
       image_base.recycle();
